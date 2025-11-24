@@ -63,3 +63,19 @@ def test_upload_file(temp_file):
         "filename": temp_file.name.split("/")[-1],  # Имя файла
         "content_length": len(b"Hello, this is a test file.")  # Длина содержимого
     }
+
+        match token:
+            case str():
+                try:
+                    check_token(
+                        token=token,
+                        jwt_auth=jwt_auth,
+                    )
+                except NotAuthenticatedError:
+                    return False
+                else:
+                    return True
+            case None:
+                return True
+            case _:
+                raise HTTPException(detail='invalid token')
