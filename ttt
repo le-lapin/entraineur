@@ -79,3 +79,21 @@ def test_upload_file(temp_file):
                 return True
             case _:
                 raise HTTPException(detail='invalid token')
+
+
+from typing import Any
+
+
+def foo(token: Any) -> None:
+    if token is None or not isinstance(token, str):
+        return False
+
+    try:
+        check_token(
+            token=token,
+            jwt_auth=jwt_auth,
+        )
+    except NotAuthenticatedError:
+        return False
+    else:
+        return True
